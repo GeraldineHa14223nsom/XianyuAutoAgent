@@ -18,7 +18,9 @@ class ConversationHistory:
     multi-turn dialogue for the LLM agents.
     """
 
-    def __init__(self, max_messages: int = 20, ttl_seconds: int = 3600):
+    def __init__(self, max_messages: int = 50, ttl_seconds: int = 7200):
+        # Increased max_messages from 20->50 and ttl from 1hr->2hr to better
+        # handle longer negotiation sessions without losing context mid-conversation
         self.max_messages = max_messages
         self.ttl_seconds = ttl_seconds
         self._histories: Dict[str, List[Message]] = defaultdict(list)
