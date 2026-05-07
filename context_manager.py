@@ -11,9 +11,14 @@ class ContextManager:
     Thread-safe wrapper around ConversationHistory.
     Provides high-level helpers used by XianyuAgent to build
     LLM prompt context from ongoing conversations.
+
+    Personal note: increased default max_messages from 20 to 50 so longer
+    negotiations don't lose early context (e.g. the buyer's original offer).
+    Also bumped ttl_seconds to 7200 (2 hours) since some Xianyu chats can
+    go quiet for a while before the buyer comes back.
     """
 
-    def __init__(self, max_messages: int = 20, ttl_seconds: int = 3600):
+    def __init__(self, max_messages: int = 50, ttl_seconds: int = 7200):
         self._history = ConversationHistory(
             max_messages=max_messages,
             ttl_seconds=ttl_seconds,
