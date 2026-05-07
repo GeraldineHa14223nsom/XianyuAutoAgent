@@ -41,6 +41,7 @@ def test_clear_removes_history(history):
 
 
 def test_evict_expired(history):
+    # Using a short TTL of 1 second to verify expired sessions are cleaned up
     short_ttl_history = ConversationHistory(max_messages=10, ttl_seconds=1)
     short_ttl_history.add_message("item1", "user1", "user", "Hello")
     short_ttl_history.add_message("item2", "user2", "user", "Hi")
@@ -68,3 +69,8 @@ def test_session_count(history):
     history.add_message("item1", "user1", "user", "a")
     history.add_message("item2", "user2", "user", "b")
     assert history.session_count() == 2
+
+
+def test_get_messages_nonexistent_session(history):
+    # Retrieving messages for a session that was never created should return an empty list
+    assert history.get_messages("ghost_item", "ghost_user") == []
